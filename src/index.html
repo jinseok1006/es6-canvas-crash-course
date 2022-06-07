@@ -6,39 +6,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
     </head>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            overflow: hidden;
-        }
-        ol {
-            list-style: none;
-        }
-        .flex {
-            display: flex;
-        }
-        .p-1 {
-            padding: 0.5em;
-        }
-        ol > li {
-            margin-right: 1em;
-        }
-        .bg-gray {
-            background-color: darkgray;
-        }
-    </style>
     <body>
-        <nav id="nav" class="bg-gray p-1">
+        <div id="nav" class="bg-gray p-1">
             <ol class="flex">
                 <li><span>head4_coordSystem</span></li>
                 <li><span>head5_getIntersection</span></li>
             </ol>
-        </nav>
-        <div id="container"></div>
+        </div>
+        <canvas id="canvas"></canvas>
         <script src="index.js"></script>
     </body>
 </html>
