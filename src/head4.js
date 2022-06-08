@@ -21,14 +21,18 @@ class Car {
         this.y = y;
         this.width = width;
         this.height = height;
+
         this.angle = 0;
+        this.velocity = 0;
+        this.maxVelocity = 3;
+
+        this.friction = 0.03;
 
         this.controls = new Controls();
     }
 
     // 내가 만든 좌표축은
-    // 왼
-    // 오른쪽이 각이 감소하는 방향
+    //
 
     update() {
         if (this.controls.right) {
@@ -37,6 +41,31 @@ class Car {
         if (this.controls.left) {
             this.angle -= 0.03;
         }
+        if (this.controls.forward) {
+            this.velocity += 0.1;
+        }
+        if (this.controls.backward) {
+            this.velocity -= 0.1;
+        }
+
+        if (this.velocity > this.maxVelocity) {
+            this.velocity = this.maxVelocity;
+        } else if (this.velocity < -this.maxVelocity) {
+            this.velocity = -this.maxVelocity;
+        }
+
+        if (Math.abs(this.velocity) < this.friction) {
+            this.velocity = 0;
+        }
+
+        if (this.velocity > 0) {
+            this.velocity -= this.friction;
+        } else if (this.velocity < 0) {
+            this.velocity += this.friction;
+        }
+
+        this.y -= Math.cos(this.angle) * this.velocity;
+        this.x += Math.sin(this.angle) * this.velocity;
     }
 
     draw(ctx) {
@@ -57,6 +86,8 @@ class Controls {
     constructor() {
         this.left = false;
         this.right = false;
+        this.backward = false;
+        this.forward = false;
 
         this.#addKeyboardListener();
     }
@@ -70,6 +101,11 @@ class Controls {
                 case "ArrowRight":
                     this.right = true;
                     break;
+                case "ArrowUp":
+                    this.forward = true;
+                    break;
+                case "ArrowDown":
+                    this.backward = true;
             }
             console.table(this);
         });
@@ -81,6 +117,11 @@ class Controls {
                 case "ArrowRight":
                     this.right = false;
                     break;
+                case "ArrowUp":
+                    this.forward = false;
+                    break;
+                case "ArrowDown":
+                    this.backward = false;
             }
             console.table(this);
         });
