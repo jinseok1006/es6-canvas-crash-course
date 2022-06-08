@@ -5,7 +5,8 @@ export default class App {
     constructor() {
         this.canvas = new Canvas();
 
-        this.addNavClickListener();
+        // this.addNavClickListener();
+        this.debug();
     }
     addNavClickListener() {
         const navs = document.querySelectorAll("#nav span");
@@ -14,6 +15,10 @@ export default class App {
         heads.forEach((head, i) => {
             navs[i].addEventListener("click", () => new head(this.canvas));
         });
+    }
+
+    debug() {
+        new Head4(this.canvas);
     }
 }
 
@@ -26,16 +31,22 @@ class Canvas {
         this.resize();
 
         window.addEventListener("resize", this.resize.bind(this));
-
-        this.ctx.font = "48px serif";
-        this.ctx.textBaseline = "top";
-        this.ctx.fillText("Click Nav Contents...", 0, 0);
     }
 
-    resize() {
+    clear() {
         this.canvas.height = window.innerHeight - this.navHeight;
         this.canvas.width = window.innerWidth;
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
+    resize() {
+        this.clear();
+
+        this.ctx.save();
+        this.ctx.textBaseline = "top";
+        this.ctx.font = "48px serif";
+        this.ctx.fillText("Click Nav Contents...", 0, 0);
+        this.ctx.restore();
     }
 
     get width() {
