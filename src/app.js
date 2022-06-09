@@ -12,9 +12,9 @@ export default class App {
         const navs = document.querySelectorAll("#nav span");
         const heads = [Head4, Head5];
 
-        heads.forEach((head, i) => {
-            navs[i].addEventListener("click", () => new head(this.canvas));
-        });
+        navs.forEach((nav, i) =>
+            nav.addEventListener("click", () => new heads[i](this.canvas))
+        );
     }
 
     debug() {
