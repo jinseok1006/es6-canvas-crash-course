@@ -31,16 +31,22 @@ class Car {
         this.controls = new Controls();
     }
 
-    // 내가 만든 좌표축은
-    //
+    // 좌표축에 관해서...
 
     update() {
-        if (this.controls.right) {
-            this.angle += 0.03;
+        // rotate
+        if (Math.abs(this.velocity) > 0) {
+            // 움직이지 않으면 회전 불가(자동차지 외발자전거가 아니잖아)
+            const flip = this.velocity >= 0 ? 1 : -1;
+            if (this.controls.right) {
+                this.angle += 0.03 * flip;
+            }
+            if (this.controls.left) {
+                this.angle -= 0.03 * flip;
+            }
         }
-        if (this.controls.left) {
-            this.angle -= 0.03;
-        }
+
+        // moving
         if (this.controls.forward) {
             this.velocity += 0.1;
         }
@@ -48,22 +54,24 @@ class Car {
             this.velocity -= 0.1;
         }
 
+        // velocity limit
         if (this.velocity > this.maxVelocity) {
             this.velocity = this.maxVelocity;
-        } else if (this.velocity < -this.maxVelocity) {
-            this.velocity = -this.maxVelocity;
+        } else if (this.velocity < -this.maxVelocity / 2) {
+            this.velocity = -this.maxVelocity / 2;
         }
 
+        // friction
         if (Math.abs(this.velocity) < this.friction) {
             this.velocity = 0;
         }
-
         if (this.velocity > 0) {
             this.velocity -= this.friction;
         } else if (this.velocity < 0) {
             this.velocity += this.friction;
         }
 
+        // update
         this.y -= Math.cos(this.angle) * this.velocity;
         this.x += Math.sin(this.angle) * this.velocity;
     }
@@ -107,7 +115,7 @@ class Controls {
                 case "ArrowDown":
                     this.backward = true;
             }
-            console.table(this);
+            // console.table(this);
         });
         window.addEventListener("keyup", (event) => {
             switch (event.key) {
@@ -123,7 +131,7 @@ class Controls {
                 case "ArrowDown":
                     this.backward = false;
             }
-            console.table(this);
+            // console.table(this);
         });
     }
 }
