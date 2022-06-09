@@ -5,8 +5,8 @@ export default class App {
     constructor() {
         this.canvas = new Canvas();
 
-        // this.addNavClickListener();
-        this.debug();
+        this.addNavClickListener();
+        // this.debug();
     }
     addNavClickListener() {
         const navs = document.querySelectorAll("#nav span");
