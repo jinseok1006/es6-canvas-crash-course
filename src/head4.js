@@ -2,6 +2,7 @@ export default class Head4 {
     constructor(canvas) {
         this.canvas = canvas;
         this.car = new Car(100, 100, 50, 100);
+        this.raf = null;
 
         this.animate(this.canvas.ctx);
     }
@@ -11,7 +12,7 @@ export default class Head4 {
         this.canvas.clear();
         this.car.draw(this.canvas.ctx);
 
-        requestAnimationFrame(this.animate.bind(this));
+        this.raf = requestAnimationFrame(this.animate.bind(this));
     }
 }
 
@@ -72,8 +73,8 @@ class Car {
         }
 
         // update
-        this.y -= Math.cos(this.angle) * this.velocity;
-        this.x += Math.sin(this.angle) * this.velocity;
+        this.y -= Math.cos(this.angle) * this.velocity; // 차가 앞으로 가는 방향은 y축이 감소하는 방향
+        this.x += Math.sin(this.angle) * this.velocity; // 차가 오른쪽으로 가는 방향은 x축이 증가하는 방향
     }
 
     draw(ctx) {
@@ -101,7 +102,7 @@ class Controls {
     }
 
     #addKeyboardListener() {
-        window.addEventListener("keydown", (event) => {
+        window.onkeydown = (event) => {
             switch (event.key) {
                 case "ArrowLeft":
                     this.left = true;
@@ -116,8 +117,9 @@ class Controls {
                     this.backward = true;
             }
             // console.table(this);
-        });
-        window.addEventListener("keyup", (event) => {
+        };
+
+        window.onkeyup = (event) => {
             switch (event.key) {
                 case "ArrowLeft":
                     this.left = false;
@@ -132,6 +134,6 @@ class Controls {
                     this.backward = false;
             }
             // console.table(this);
-        });
+        };
     }
 }
