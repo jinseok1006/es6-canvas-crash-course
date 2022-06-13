@@ -23,7 +23,8 @@ export default class App {
     }
 
     debug() {
-        new Head4(this.canvas);
+        // new Head4(this.canvas);
+        new Head5(this.canvas);
     }
 
     destroyHead() {
@@ -31,6 +32,9 @@ export default class App {
             cancelAnimationFrame(this.nowHead.raf);
             window.onkeydown = () => false;
             window.onkeyup = () => false;
+            window.onmousemove = () => false;
+            window.onclick = () => false;
+            window.oncontextmenu = () => false;
         }
     }
 }
